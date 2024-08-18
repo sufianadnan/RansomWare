@@ -133,7 +133,7 @@ The `App` class represents the main GUI application. It manages the layout, even
 
 ### Watch the Demo
 
-[![Watch the demo](images/background.png)](https://youtu.be/uM76phiD_2Q)  
+[![Watch the demo](images/background.jpg)](https://youtu.be/uM76phiD_2Q)  
 
 ## Disclaimer
 
